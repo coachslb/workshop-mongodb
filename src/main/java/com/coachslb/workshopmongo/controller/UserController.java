@@ -1,6 +1,7 @@
 package com.coachslb.workshopmongo.controller;
 
 import com.coachslb.workshopmongo.domain.User;
+import com.coachslb.workshopmongo.domain.dto.UserDTO;
 import com.coachslb.workshopmongo.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,9 +23,11 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<User>> findAll(){
+    public ResponseEntity<List<UserDTO>> findAll(){
         List<User> list = service.findAll();
 
-        return ResponseEntity.ok().body(list);
+        List<UserDTO> listDto = list.stream().map(UserDTO::new).toList();
+
+        return ResponseEntity.ok().body(listDto);
     }
 }
