@@ -1,6 +1,7 @@
 package com.coachslb.workshopmongo.service;
 
 import com.coachslb.workshopmongo.domain.User;
+import com.coachslb.workshopmongo.domain.dto.UserDTO;
 import com.coachslb.workshopmongo.repository.UserRepository;
 import com.coachslb.workshopmongo.service.exception.ObjectNotFoundException;
 import org.springframework.stereotype.Service;
@@ -22,5 +23,13 @@ public class UserService {
 
     public User findById(String id){
         return repository.findById(id).orElseThrow(() -> new ObjectNotFoundException("User not found"));
+    }
+
+    public User insert(User user){
+        return repository.insert(user);
+    }
+
+    public User fromDTO(UserDTO userDTO) {
+        return new User(userDTO.getId(), userDTO.getName(), userDTO.getEmail());
     }
 }
