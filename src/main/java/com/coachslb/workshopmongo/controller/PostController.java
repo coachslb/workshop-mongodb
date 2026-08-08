@@ -5,6 +5,8 @@ import com.coachslb.workshopmongo.domain.User;
 import com.coachslb.workshopmongo.domain.dto.UserDTO;
 import com.coachslb.workshopmongo.service.PostService;
 import com.coachslb.workshopmongo.service.UserService;
+import com.coachslb.workshopmongo.utils.URLUtils;
+import jakarta.websocket.server.PathParam;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -27,5 +29,13 @@ public class PostController {
         Post post = service.findById(id);
 
         return ResponseEntity.ok().body(post);
+    }
+
+    @GetMapping(value = "/search")
+    public ResponseEntity<List<Post>> findByTitle(@RequestParam(value = "text", defaultValue = "") String text){
+        text = URLUtils.decodeParam(text);
+        List<Post> list = service.findByTitle(text);
+
+        return ResponseEntity.ok().body(list);
     }
 }
